@@ -1,5 +1,5 @@
 var mongoose=require('mongoose')
-var MovieSchema=new mongoose.schema({
+var MovieSchema=new mongoose.Schema({
 	doctor:String,
 	title:String,
 	language:String,
@@ -33,8 +33,8 @@ MovieSchema.pre('save',function(){
 MovieSchema.statics={
 	fetch:function(cb){
 		return this
-		.find({})
-		.sort('meta.updateAt')
+			.find({})
+			.sort('meta.updateAt')
 		exec(cb)
 	},
 	findById:function(id,cb){
@@ -43,4 +43,4 @@ MovieSchema.statics={
 		exec(cb)
 	}
 }
-module.exprots=MovieSchema
+module.exports=MovieSchema

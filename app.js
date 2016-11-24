@@ -18,7 +18,7 @@ console.log('start at'+port)
 
 //Home page
 app.get('/',function(req,res){
-	movie.fetch(function(err,movies){
+	Movie.fetch(function(err,movies){
 		if(err){
 			console.log(err)
 		}
@@ -109,7 +109,7 @@ app.get('/admin/update/:id',function(req,res){
 
 //movies list
 app.get('/admin/list',function(req,res){
-	movie.fetch(function(err,movies){
+	Movie.fetch(function(err,movies){
 		if(err){
 			console.log(err)
 		}
@@ -120,4 +120,4 @@ app.get('/admin/list',function(req,res){
 	})
 	
 })
-console.log(__dirname+'>')
+//console.log(__dirname+'>')
