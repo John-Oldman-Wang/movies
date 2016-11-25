@@ -1,4 +1,7 @@
 var express=require('express')
+var bodyParser=require('body-parser')
+var multer=require('multer')
+var upload=multer
 var path=require('path')
 var mongoose=require('mongoose')
 var Movie=require('./models/movies')
@@ -10,7 +13,8 @@ mongoose.connect('mongodb://localhost/jack')
 
 app.set('views','./views/pages')
 app.set('view engine','jade')
-//app.use(express.bodyParser())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended:true}))
 app.use(express.static('bower_components'))
 app.listen(port)
 
@@ -63,9 +67,8 @@ app.get('/admin/movie',function(req,res){
 })
 
 //post new movie
-app.post('/admin/movie/new',function(req,res){
-	for(var x in req)
-		console.log(x)
+app.post('/admin/movie/new',upload.array(),function(req,res){
+	console.log(req.body)
 	//var id
 	//var movieObj
 	//var _movie
