@@ -33,14 +33,14 @@ MovieSchema.pre('save',function(){
 MovieSchema.statics={
 	fetch:function(cb){
 		return this
-			.find({})
-			.sort('meta.updateAt')
-		exec(cb)
+		.find({})
+		.sort('meta.updateAt')
+		.exec(cb)
 	},
 	findById:function(id,cb){
 		return this
 		.findOne({_id:id})
-		exec(cb)
+		.exec(cb)
 	}
 }
 module.exports=MovieSchema

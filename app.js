@@ -6,7 +6,7 @@ var _=require('underscore')
 var port=process.env.PORT || 3000
 var app=express()
 
-mongoose.connect('mongodb://localhost/movies')
+mongoose.connect('mongodb://localhost/jack')
 
 app.set('views','./views/pages')
 app.set('view engine','jade')
@@ -18,16 +18,21 @@ console.log('start at'+port)
 
 //Home page
 app.get('/',function(req,res){
+	//console.log('shouye')
 	Movie.fetch(function(err,movies){
+		//console.log('1shouye')
+		//console.log('ss')
 		if(err){
 			console.log(err)
 		}
+		console.log(movies)
 		res.render('index',{
 			title: 'wanglin shouye',
-			movies:movies
+			movies: movies
 		})
 	})
 })
+
 //see movie
 app.get('/movie/:id',function(req,res){
 	var id=req.params.id
@@ -39,6 +44,7 @@ app.get('/movie/:id',function(req,res){
 	})
 	
 })
+
 //input new movie
 app.get('/admin/movie',function(req,res){
 	res.render('admin',{
@@ -55,44 +61,50 @@ app.get('/admin/movie',function(req,res){
 		}
 	})
 })
+
 //post new movie
 app.post('/admin/movie/new',function(req,res){
-	var id=req.body.movie.id
-	var movieObj=req.body.movie
-	var _movie
-	if(id !== 'undefined'){
-		Movie.findById(id,function(err,movie){
-			if(err){
-				console.log(err)
-			}
-			_movie=_.extend(movie,movieObj)
-			-movie.save(function(err,movie){
-				if(err){
-					console.log(err)
-				}
-				res.redirect('/movie'+movie._id)
-			})
-		})
-	}
-	else{
-		_movie=new Movie({
-			doctor: movieObj.doctor,
-			title: movieObj.title,
-			country: movieObj.country,
-			language: movieObj.language,
-			year: movieObj.year,
-			poster: movieObj.poster,
-			summary: movieObj.summary,
-			flash: movieObj.flash
-		})
-		_movie.save(function(err,movie){
-			if(err){
-				console.log(err)
-			}
-			res.redirect('/movie'+movie._id)
-		})
-	}
+	for(var x in req)
+		console.log(x)
+	//var id
+	//var movieObj
+	//var _movie
+	//if(id !== 'undefined'){
+	//	Movie.findById(id,function(err,movie){
+	//		if(err){
+	//			console.log(err)
+	//		}
+	//		_movie=_.extend(movie,movieObj)
+	//		_movie.save(function(err,movie){
+	//			if(err){
+	//				console.log(err)
+	//			}
+	//			res.redirect('/movie'+movie._id)
+	//		})
+	//	})
+	//}
+	//else{
+	//	_movie=new Movie({
+	//		doctor: movieObj.doctor,
+	//		title: movieObj.title,
+	//		country: movieObj.country,
+	//		language: movieObj.language,
+	//		year: movieObj.year,
+	//		poster: movieObj.poster,
+	//		summary: movieObj.summary,
+	//		flash: movieObj.flash
+	//	})
+	//	_movie.save(function(err,movie){
+	//		if(err){
+	//			console.log(err)
+	//		}
+	//		res.redirect('/movie'+movie._id)
+	//	})
+	//}
 })
+
+
+
 //update movie
 app.get('/admin/update/:id',function(req,res){
 	var id = req.params.id
