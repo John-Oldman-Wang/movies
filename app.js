@@ -61,7 +61,16 @@ app.get('/admin/movie',function(req,res){
 		}
 	})
 })
-
+//update movie
+app.get('/admin/movie/update/:id',function(req,res){
+	var id=req.params.id
+	Movie.findById(id,function(err,movie){
+		res.render('admin',{
+			title:"wanglin update",
+			movie:movie
+		})
+	})
+})
 //post new movie
 app.post('/admin/movie/new',upload.array(),function(req,res){
 	//console.log(req.body)
@@ -97,7 +106,6 @@ app.post('/admin/movie/new',upload.array(),function(req,res){
 			if(err){
 				console.log(err)
 			}
-			console.log(movie)
 			res.redirect('/movie/'+movie._id)
 		})
 	}
