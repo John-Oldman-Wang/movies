@@ -1,7 +1,7 @@
 {
   "name": "movies",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "wanglin moves",
   "main": "app.js",
   "dependencies": {
     "body-parser": "^1.15.2",
@@ -24,7 +24,7 @@
     "moviewebsite"
   ],
   "author": "wanglin (843022618@qq.com)",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/nokisnojok/movies/issues"
   },

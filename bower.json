@@ -1,0 +1,25 @@
+{
+  "name": "movies",
+  "description": "wanglin movies",
+  "main": "app.js",
+  "authors": [
+    "wanglin (843022618@qq.com)"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "movies"
+  ],
+  "homepage": "https://github.com/nokisnojok/movies",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}

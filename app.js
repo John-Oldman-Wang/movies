@@ -6,7 +6,7 @@ var path=require('path')
 var mongoose=require('mongoose')
 mongoose.Promise=Promise
 var _=require('underscore')
-var port=process.env.PORT || 3000
+var port=process.env.PORT || 80
 var app=express()
 
 mongoose.connect('mongodb://localhost/jack')
@@ -15,7 +15,7 @@ app.set('views','./views/pages')
 app.set('view engine','jade')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
-app.use(express.static('bower_components'))
+app.use(express.static('public'))
 app.listen(port)
 
 console.log('start at'+port)
@@ -136,4 +136,19 @@ app.get('/admin/list',function(req,res){
 			movies: movies
 		})
 	})
+})
+
+//delete movie
+app.delete('/admin/list',function(req,res){
+	var id=req.query.id
+	if(id){
+		Movie.remove({_id:id},function(err,movie){
+			if(err){
+				console.log(err)
+			}
+			else{
+				res.json({success:1})
+			}
+		})
+	}
 })
