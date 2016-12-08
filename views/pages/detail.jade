@@ -4,9 +4,23 @@ block content
 	.container
 		if(movie)
 			.row
-				.col-md-7
-					embed(src="#{movie.flash}",allowFullScreen='true', quality='high',width='720', height='600', align='middle', type='application/x-shockwave-flash')
-				.col-md-5
+				.col-md-8
+					div(id="player" width="100%" height="100%")
+						object(type="application/x-shockwave-flash" data="http://static.youku.com/v20161201.0/v/swf/player_yknpsv.swf" width="100%" id="movie_player")
+							param(name="allowFullScreen" value="true")
+							param(name="allowscriptaccess" value="always")
+							param(name="allowFullScreenInteractive" value="true")
+							param(name="wmode" value="direct")
+							param(name="bgcolor" value="#000000")
+							param(name="flashvars" value="#{movie.flash}")
+							param(name="movie" value="http://static.youku.com/v20161201.0/v/swf/player_yknpsv.swf")
+							div(class="player_html5")
+								div(class="picture",style="height:100%")
+									div(style="line-height:460px;")
+										span(style="font-size:18px") 您还没有安装flash播放器,请点击
+											a(href="http://www.adobe.com/go/getflash" target="_blank") 这里
+											安装
+				.col-md-4
 					dl.dl-horizontal
 						dt 电影名字
 						dd #{movie.title}
@@ -23,3 +37,4 @@ block content
 		else
 			h 不存在这部电影
 			a(href='/') 返回首页
+		script window.onload=function(){function setheight(){var obj=document.getElementById('player');obj.style.height=(parseInt(obj.offsetWidth)*2/3-50)+'px';obj.style.overflow='hidden';var object=document.getElementById('movie_player');object.style.height=parseInt(object.offsetWidth)*2/3+'px';obj.style.margin="0px -15px"};setheight();window.onresize=setheight;}
