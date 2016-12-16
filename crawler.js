@@ -1,7 +1,7 @@
 var request=require('http').request
 var options={
-	hostname:'127.0.0.1',
-	path:'/admin/list'
+	hostname:'v.youku.com',
+	path:'/v_show/id_XMTgzMTk1OTA5Mg==.html'
 }
 
 
@@ -15,6 +15,7 @@ function Request(options,cb,timeout){
 		var html=new Buffer('')
 		res.on('data',function(chunk){
 			html=Buffer.concat([html,chunk])
+			console.log(Buffer.isBuffer(chunk))
 		})
 		res.on('end',function(){
 			clearTimeout(timer)
@@ -33,7 +34,5 @@ function Request(options,cb,timeout){
 	req.end()
 }
 Request(options,function(a,b){
-	if(a)
-		console.log(a.toString())
-	console.log(b)
+	console.log(a)
 },5000)
