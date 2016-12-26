@@ -4,12 +4,16 @@
   "description": "wanglin moves",
   "main": "app.js",
   "dependencies": {
+    "bcrypt": "^1.0.1",
     "body-parser": "^1.15.2",
+    "connect-mongo": "^1.3.2",
+    "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
+    "express-session": "^1.14.2",
     "jade": "^1.11.0",
+    "moment": "^2.17.1",
     "mongoose": "^4.6.8",
     "multer": "^1.2.0",
-    "moment": "^2.17.0",
     "underscore": "^1.8.3"
   },
   "devDependencies": {

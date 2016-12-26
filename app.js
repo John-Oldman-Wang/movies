@@ -6,22 +6,44 @@ var path=require('path')
 var mongoose=require('mongoose')
 mongoose.Promise=Promise
 var _=require('underscore')
-var port=process.env.PORT || 80
-var app=express()
+var cookieParser=require('cookie-parser')
+var session=require('express-session')
+var mongoStore=require('connect-mongo')(session)
 
-mongoose.connect('mongodb://localhost/jack')
+
 var Movie=require('./models/movies.js')
+var User=require('./models/users.js')
+
+var dburl='mongodb://localhost/jack'
+var app=express()
+var port=process.env.PORT || 3000
+
+mongoose.connect(dburl)
+
+
 app.set('views','./views/pages')
 app.set('view engine','jade')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(express.static('public'))
+app.use(cookieParser())
+app.use(session({
+	secret:'movies',
+	store: new mongoStore({
+		url:dburl,
+		collection: 'sessions'
+	})
+}))
+app.locals.moment=require('moment')
 app.listen(port)
 
 console.log('start at'+port)
 
+
 //Home page
 app.get('/',function(req,res){
+	console.log('user in session')
+	console.log(req.session.user)
 	Movie.fetch(function(err,movies){
 		if(err){
 			console.log(err)
@@ -45,6 +67,55 @@ app.get('/movie/:id',function(req,res){
 	
 })
 
+//sign up
+app.post('/user/signup',function(req,res){
+	var _user=req.body.user
+	User.find({name:_user.name},function(err,user){
+		if(err){
+			console.log(err)
+		}
+		if(user){
+			return res.redirect('/')
+		}
+		else{
+			var user=new User(_user)
+			user.save(function(err,user){
+				if(err){
+					console.log(err)
+				}
+				res.redirect('/admin/userlist')
+			})
+		}
+	})
+})
+
+//sign in
+app.post('/user/signin',function(req,res){
+	var _user=req.body.user
+	var name=_user.name
+	var password=_user.password
+	User.findOne({name:name},function(err,user){
+		if(err){
+			console.log(err)
+		}
+		if(!user){
+			return res.redirect('/')
+		}
+		user.comparePassword(password,function(err,isMatch){
+			if(err){
+				console.log(err)
+			}
+			if(isMatch){
+				req.session.user = user
+				console.log('password is match')
+			}
+			else{
+				console.log('password is not match')
+			}
+		})
+	})
+})
+
 //input new movie
 app.get('/admin/movie',function(req,res){
 	res.render('admin',{
@@ -61,6 +132,7 @@ app.get('/admin/movie',function(req,res){
 		}
 	})
 })
+
 //update movie
 app.get('/admin/movie/update/:id',function(req,res){
 	var id=req.params.id
@@ -71,6 +143,7 @@ app.get('/admin/movie/update/:id',function(req,res){
 		})
 	})
 })
+
 //post new movie
 app.post('/admin/movie/new',upload.array(),function(req,res){
 	//console.log(req.body)
@@ -151,4 +224,17 @@ app.delete('/admin/list',function(req,res){
 			}
 		})
 	}
+})
+
+//movies list
+app.get('/admin/userlist',function(req,res){
+	User.fetch(function(err,users){
+		if(err){
+			console.log(err)
+		}
+		res.render('userlist',{
+			title: 'wanglin userlist',
+			users: users
+		})
+	})
 })
