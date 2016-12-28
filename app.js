@@ -75,14 +75,17 @@ app.post('/user/signup',function(req,res){
 			console.log(err)
 		}
 		if(user){
+			//用户名被占用
 			return res.redirect('/')
 		}
 		else{
+			//注册成功
 			var user=new User(_user)
 			user.save(function(err,user){
 				if(err){
 					console.log(err)
 				}
+				//用户信息保存到数据库里面
 				res.redirect('/admin/userlist')
 			})
 		}
@@ -99,6 +102,7 @@ app.post('/user/signin',function(req,res){
 			console.log(err)
 		}
 		if(!user){
+			//没有该用户名
 			return res.redirect('/')
 		}
 		user.comparePassword(password,function(err,isMatch){
@@ -106,10 +110,13 @@ app.post('/user/signin',function(req,res){
 				console.log(err)
 			}
 			if(isMatch){
-				req.session.user = user
+				//密码正确登录成功
+				req.session.user = user //写入会话
 				console.log('password is match')
+				res.redirect('/admin/userlist')
 			}
 			else{
+				//密码错误
 				console.log('password is not match')
 			}
 		})
