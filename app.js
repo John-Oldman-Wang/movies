@@ -42,15 +42,17 @@ console.log('start at'+port)
 
 //Home page
 app.get('/',function(req,res){
-	console.log('user in session')
-	console.log(req.session.user)
+	//console.log('user in session')
+	//console.log(req.session.user)
+	var _user=req.session.user
 	Movie.fetch(function(err,movies){
 		if(err){
 			console.log(err)
 		}
 		res.render('index',{
 			title: 'wanglin shouye',
-			movies: movies
+			movies: movies,
+			user:_user
 		})
 	})
 })
@@ -58,10 +60,12 @@ app.get('/',function(req,res){
 //see movie
 app.get('/movie/:id',function(req,res){
 	var id=req.params.id
+	var _user=req.session.user
 	Movie.findById(id,function(err,movie){
 		res.render('detail',{
 			title: 'wanglin xiangqingye',
-			movie:movie
+			movie:movie,
+			user:_user
 		})
 	})
 	
@@ -74,7 +78,8 @@ app.post('/user/signup',function(req,res){
 		if(err){
 			console.log(err)
 		}
-		if(user){
+		if(user.length){
+			console.log(user)
 			//用户名被占用
 			return res.redirect('/')
 		}
@@ -103,6 +108,7 @@ app.post('/user/signin',function(req,res){
 		}
 		if(!user){
 			//没有该用户名
+			console.log('no user')
 			return res.redirect('/')
 		}
 		user.comparePassword(password,function(err,isMatch){
@@ -111,6 +117,7 @@ app.post('/user/signin',function(req,res){
 			}
 			if(isMatch){
 				//密码正确登录成功
+				delete user.password
 				req.session.user = user //写入会话
 				console.log('password is match')
 				res.redirect('/admin/userlist')
@@ -118,13 +125,23 @@ app.post('/user/signin',function(req,res){
 			else{
 				//密码错误
 				console.log('password is not match')
+				res.redirect('/')
 			}
 		})
 	})
 })
 
+//logout
+app.get('/logout',function(req,res){
+	delete req.session.user
+	res.redirect('/')
+})
+
+
+
 //input new movie
 app.get('/admin/movie',function(req,res){
+	var _user=req.session.user
 	res.render('admin',{
 		title: 'wanglin admin',
 		movie:{
@@ -136,17 +153,20 @@ app.get('/admin/movie',function(req,res){
 			flash:'',
 			summary:'',
 			language:''
-		}
+		},
+		user:_user
 	})
 })
 
 //update movie
 app.get('/admin/movie/update/:id',function(req,res){
 	var id=req.params.id
+	var _user=req.session.user
 	Movie.findById(id,function(err,movie){
 		res.render('admin',{
 			title:"wanglin update",
-			movie:movie
+			movie:movie,
+			user:_user
 		})
 	})
 })
@@ -194,11 +214,13 @@ app.post('/admin/movie/new',upload.array(),function(req,res){
 //update movie
 app.get('/admin/update/:id',function(req,res){
 	var id = req.params.id
+	var _user=req.session.user
 	if(id){
 		Movie.findById(id,function(err,movie){
 			res.render('admin',{
 				title:'update',
-				movie:movie
+				movie:movie,
+				user:_user
 			})
 		})
 	}
@@ -207,13 +229,15 @@ app.get('/admin/update/:id',function(req,res){
 
 //movies list
 app.get('/admin/list',function(req,res){
+	var _user=req.session.user
 	Movie.fetch(function(err,movies){
 		if(err){
 			console.log(err)
 		}
 		res.render('list',{
 			title: 'wanglin list',
-			movies: movies
+			movies: movies,
+			user:_user
 		})
 	})
 })
@@ -235,13 +259,15 @@ app.delete('/admin/list',function(req,res){
 
 //movies list
 app.get('/admin/userlist',function(req,res){
+	var _user=req.session.user
 	User.fetch(function(err,users){
 		if(err){
 			console.log(err)
 		}
 		res.render('userlist',{
 			title: 'wanglin userlist',
-			users: users
+			users: users,
+			user:_user
 		})
 	})
 })
