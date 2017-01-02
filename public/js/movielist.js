@@ -5,7 +5,7 @@ $(function(){
 		var tr=$('.item-id-'+id)
 		$.ajax({
 			type:'DELETE',
-			url:'/admin/list?id='+id
+			url:'/admin/movie/del?id='+id
 		})
 		.done(function(results){
 			console.log(results.success)
