@@ -3,6 +3,10 @@ var User=require('../models/users.js')
 //new user
 exports.new=function(req,res){
 	var _user=req.body.user
+	var password=_user.password
+	if(!password){
+		return res.redirect('/')
+	}
 	User.find({name:_user.name},function(err,user){
 		if(err){
 			console.log(err)
@@ -10,7 +14,7 @@ exports.new=function(req,res){
 		if(user.length){
 			console.log(user)
 			//用户名被占用
-			return res.redirect('/')
+			res.redirect('/')
 		}
 		else{
 			//注册成功
@@ -25,7 +29,18 @@ exports.new=function(req,res){
 		}
 	})
 }
-
+// whetheruser
+exports.whetheruser=function(req,res){
+	var name=req.query.name
+	//console.log(name)
+	User.findOne({name:name},function(err,user){
+		if(err) return console.log(err)
+		if(user)
+			res.json({whetheruser:1})
+		else
+			res.json({whetheruser:0})
+	})
+}
 //verification password
 exports.verification=function(req,res){
 	var _user=req.body.user

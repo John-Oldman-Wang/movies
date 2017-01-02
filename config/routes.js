@@ -10,7 +10,8 @@ module.exports=function(app){
 
 	//sign up
 	app.post('/user/new',User.new)
-
+    //whetheruser
+    app.get('/user/whether',User.whetheruser)
 	//sign in
 	app.post('/user/verification',User.verification)
 
