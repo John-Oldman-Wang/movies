@@ -1,7 +1,7 @@
 var upload=require('multer')()
-var index=require('../APP/controllers/index')
-var Movie=require('../APP/controllers/movie')
-var User=require('../APP/controllers/user')
+var index=require('../App/controllers/index')
+var Movie=require('../App/controllers/movie')
+var User=require('../App/controllers/user')
 module.exports=function(app){
 	//Home page
 	app.get('/',index)

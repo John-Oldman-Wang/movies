@@ -4,8 +4,8 @@ exports.watch=function(req,res){
 	var id=req.params.id
 	Movie.findById(id,function(err,movie){
 		res.render('detail',{
-			title: movie.title,
-			movie:movie,
+			title: movie.title || "",
+			movie: movie,
 			user:req.session.user
 		})
 	})	
@@ -33,8 +33,8 @@ exports.editnew=function(req,res){
 exports.editold=function(req,res){
 	var id=req.params.id
 	Movie.findById(id,function(err,movie){
-		res.render('修改电影',{
-			title:"wanglin update",
+		res.render('editmovie',{
+			title:"修改电影",
 			movie:movie,
 			user:req.session.user
 		})
