@@ -37,10 +37,6 @@ app.use(function(req,res,next){
 			fs.renameSync(__dirname+"/uploads/"+oldname[i],__dirname+"/uploads/"+oldname[i]+"."+type[i])
 		}
 		req.files=null
-		/*req.files={
-			avatar:oldname[0]+"."+type[0],
-			gallery:oldname[1]+"."+type[1]
-		}*/
 		req.body.avatar=oldname[0]+"."+type[0]
 		req.body.gallery=oldname[1]+"."+type[1]
 	}
@@ -56,16 +52,24 @@ app.use(session({
 	})
 }))
 
+//count visitor
+var Visitor=require('./App/models/visitors.js')
 app.use(function(req,res,next){
-	console.log("time:"+moment(new Date()).format("YYYY/MM/DD HH:mm:ss")+",method: "+req.method+",url: "+req.url)
+	if(req.ip.indexOf("127.0.0.1")==-1){
+		var _visitor=new Visitor({
+			url:req.url,
+			ip:req.ip,
+			method:req.method
+		})
+		_visitor.save(function(err,visitor){
+			if(err){
+				console.log("访问保存出错")
+			}
+		})
+	}
 	next()
 })
 
-//if('development' === app.get('env')){
-//	app.set('showStackError',true)
-//	app.locals.pretty =true
-//	mongoose.set('debug',true)
-//}
 app.post("/admin/upload",function(req,res){
 	console.log(req.body)
 	res.end("上传成功")

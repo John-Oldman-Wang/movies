@@ -9,15 +9,15 @@ block content
 			ul.mcontent
 				each item in movies
 					li.mitem
-						a(href='movie/#{item._id}')
+						a(href='/watch?id=#{item._id}')
 							img(src='#{item.poster}', alt="#{item.title}")
 						.vediothumb
 							h5 #{item.title}
 							p
-								a.btn.btn-primary.btn-xs(href='/movie/#{item._id}',role='button') 立即观看
+								a.btn.btn-primary.btn-xs(href='/watch?id=#{item._id}',role='button') 立即观看
 						.vediothumb-bcg
 							h5 #{item.title}
 							p
-								a.btn.btn-primary.btn-xs(href='/movie/#{item._id}',role='button') 立即观看
+								a.btn.btn-primary.btn-xs(href='/watch?id=#{item._id}',role='button') 立即观看
 		div
 		script(src="/js/index.js")

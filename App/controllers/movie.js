@@ -1,7 +1,7 @@
 var Movie=require('../models/movies.js')
 var _=require('underscore')
 exports.watch=function(req,res){
-	var id=req.params.id
+	var id=req.query.id
 	Movie.findById(id,function(err,movie){
 		res.render('detail',{
 			title: movie.title || "",
@@ -57,7 +57,7 @@ exports.NewUpdate=function(req,res){
 				if(err){
 					console.log(err)
 				}
-				res.redirect('/movie/'+movie._id)
+				res.redirect('/watch?id='+movie._id)
 			})
 		})
 	}
@@ -76,7 +76,7 @@ exports.NewUpdate=function(req,res){
 			if(err){
 				console.log(err)
 			}
-			res.redirect('/movie/'+movie._id)
+			res.redirect('/watch?id='+movie._id)
 		})
 	}
 }
