@@ -25,7 +25,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(upload.fields([{ name: "avatar", maxCount: 1 }, { name: "gallery", maxCount: 1 }]))
 app.use(function(req,res,next){
-	if(req.files){
+	if(req.files&&req.files.length){
 		var files=req.files
 		var oldname=[]
 		var type=[]
@@ -57,7 +57,7 @@ app.use(session({
 }))
 
 app.use(function(req,res,next){
-	console.log("time:"+moment(new Date()).format("YYYY/MM/DD hh:mm:ss")+",method: "+req.method+",url: "+req.url)
+	console.log("time:"+moment(new Date()).format("YYYY/MM/DD HH:mm:ss")+",method: "+req.method+",url: "+req.url)
 	next()
 })
 

@@ -24,7 +24,7 @@ exports.new=function(req,res){
 					console.log(err)
 				}
 				//用户信息保存到数据库里面
-				res.redirect('/admin/userlist')
+				res.redirect('/admin/movielist')
 			})
 		}
 	})
