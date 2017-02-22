@@ -11,6 +11,5 @@ window.onload=function(){
 	};
 	setheight();
 	window.onresize=setheight;
-	alert("you can visit /movielist /visitorlist /video.html /upload.html")
 	console.log("you can visit /movielist /visitorlist /video.html /upload.html")
 }

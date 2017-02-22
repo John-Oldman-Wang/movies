@@ -4,11 +4,11 @@ exports.watch=function(req,res){
 	var id=req.query.id
 	Movie.findById(id,function(err,movie){
 		if(err){
-			res.redirect("/")
-			return
+			console.log(err)
 		}
+		var title= movie? movie.title:"不存在你要观看的电影"
 		res.render('detail',{
-			title: movie.title || "",
+			title: title,
 			movie: movie,
 			user:req.session.user
 		})
