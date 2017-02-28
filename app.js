@@ -20,7 +20,7 @@ mongoose.connect(dburl)
 app.disable("x-powered-by")
 app.set("views","./App/views/pages")
 app.set("view engine","jade")
-app.use(express.static("public"))
+app.use("static",express.static("public"))
 require("./config/Middleware")(app)
 app.use(session({
 	secret:"movies",
@@ -33,42 +33,6 @@ app.use(session({
 //app.use(bodyParser.urlencoded({extended:true}))
 //app.use(upload.fields([{ name: "avatar", maxCount: 1 }, { name: "gallery", maxCount: 1 }]))
 //app.use(cookieParser())
-app.use(function(req,res,next){
-	if(req.files&&req.files.length){
-		var files=req.files
-		var oldname=[]
-		var type=[]
-		oldname.push(files["avatar"][0].filename)
-		oldname.push(files["gallery"][0].filename)
-		type.push(files["avatar"][0].originalname.split(".")[files["avatar"][0].originalname.split(".").length-1])
-		type.push(files["gallery"][0].originalname.split(".")[files["gallery"][0].originalname.split(".").length-1])
-		for(var i=0;i<oldname.length;i++){
-			fs.renameSync(__dirname+"/uploads/"+oldname[i],__dirname+"/uploads/"+oldname[i]+"."+type[i])
-		}
-		req.files=null
-		req.body.avatar=oldname[0]+"."+type[0]
-		req.body.gallery=oldname[1]+"."+type[1]
-	}
-	next()
-})
-
-//count visitor
-var Visitor=require('./App/models/visitors.js')
-app.use(function(req,res,next){
-	if(req.ip.indexOf("127.0.0.1")==-1){
-		var _visitor=new Visitor({
-			url:req.url,
-			ip:req.ip,
-			method:req.method
-		})
-		_visitor.save(function(err,visitor){
-			if(err){
-				console.log("访问保存出错")
-			}
-		})
-	}
-	next()
-})
 
 app.post("/admin/upload",function(req,res){
 	console.log(req.body)
@@ -79,6 +43,16 @@ var moment=require("moment")
 app.locals.moment=moment
 
 require("./config/routes")(app)
+app.use("/admin",function(req,res){
+	if(!req.session || !req.session.user || req.session.user.name!=="admin"){
+		res.redirect("/")
+	}else{
+		next()
+	}
+})
+
+
+
 app.use("*",function(req,res){
 	res.end("404 Not Found")
 })
