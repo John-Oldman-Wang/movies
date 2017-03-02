@@ -20,7 +20,7 @@ mongoose.connect(dburl)
 app.disable("x-powered-by")
 app.set("views","./App/views/pages")
 app.set("view engine","jade")
-app.use("static",express.static("public"))
+app.use("/static",express.static("public"))
 require("./config/Middleware")(app)
 app.use(session({
 	secret:"movies",
