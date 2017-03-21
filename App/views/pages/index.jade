@@ -2,12 +2,14 @@ extends ../layout
 
 block content
 	.container.marginbot
+		link(href='/static/css/index.css', rel='stylesheet')
 		.row
 			each item in movies
-				.col-md-3
+				.col-md-2
 					.thumbnail
-						a(href='movie/#{item._id}')
-							img(src='#{item.poster}', alt="#{item.title}")
-						.caption
-							h3 #{item.title}
-							p: a.btn.btn-primary(href='/movie/#{item._id}',role='button') 立即观看
+						a(href='watch?id=#{item._id}')
+							img(src='#{item.poster}', alt="#{item.title}" style="width:100%")
+						.watchBox
+							h5 #{item.title}
+							p.small: a.btn.btn-primary(href='/watch?id=#{item._id}',role='button') 立即观看
+						style

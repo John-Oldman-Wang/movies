@@ -20,7 +20,15 @@ mongoose.connect(dburl)
 app.disable("x-powered-by")
 app.set("views","./App/views/pages")
 app.set("view engine","jade")
-app.use("/static",express.static("public"))
+app.use("/static",express.static("public",{
+	"maxAge":"600000",
+	setHeaders:function(res,path){
+		if(express.static.mime.lookup(path)==="text/html")
+			res.setHeader("Cache-Control","public,max-age=0")
+		if(express.static.mime.lookup(path)==="video/mp4")
+			res.setHeader("Content-Type","video/webm")
+	}
+}))
 require("./config/Middleware")(app)
 app.use(session({
 	secret:"movies",
@@ -42,14 +50,14 @@ app.post("/admin/upload",function(req,res){
 var moment=require("moment")
 app.locals.moment=moment
 
-require("./config/routes")(app)
-app.use("/admin",function(req,res){
+app.use("/admin",function(req,res,next){
 	if(!req.session || !req.session.user || req.session.user.name!=="admin"){
 		res.redirect("/")
 	}else{
 		next()
 	}
 })
+require("./config/routes")(app)
 
 
 
