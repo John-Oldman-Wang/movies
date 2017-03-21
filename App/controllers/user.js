@@ -23,6 +23,8 @@ exports.new=function(req,res){
 				if(err){
 					console.log(err)
 				}
+				delete user.password
+				req.session.user=user
 				//用户信息保存到数据库里面
 				res.redirect('/admin/movielist')
 			})

@@ -93,9 +93,23 @@
 body{
 	background-color: #f1f1f1;
 }*/
+.thumbnail{
+	position:relative;
+}
 .watchBox{
 	position:absolute;
 	width:100%;
-	bottom:20px;
+	bottom:0px;
+	background-color: rgba(0,0,0,0.6);
+	background-clip: content-box;
+	color:#FFF;
 	display: none;
+	padding-right:8px;
+	padding-bottom:4px;
+}
+.thumbnail:hover .watchBox{
+	display: block;
+}
+.watchBox>*{
+	margin-left:8px;
 }

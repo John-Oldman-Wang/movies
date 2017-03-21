@@ -26,8 +26,10 @@ div#html5playercontrolbar{
 	width:100%;
 	bottom:0px;
 	left:0px;
-	height: 45px;
+	height: 145px;
+	padding-top:100px;
 	z-index: 2147483747;
+	background-image: linear-gradient(to top,rgba(0,0,0,0.5),rgba(0,0,0,0));
 }
 div#html5playercontrolbar > #playpausebtn {
 	width:36px;

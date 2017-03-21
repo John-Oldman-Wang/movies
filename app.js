@@ -21,7 +21,7 @@ app.disable("x-powered-by")
 app.set("views","./App/views/pages")
 app.set("view engine","jade")
 app.use("/static",express.static("public",{
-	"maxAge":"600000",
+	"maxAge":"0",
 	setHeaders:function(res,path){
 		if(express.static.mime.lookup(path)==="text/html")
 			res.setHeader("Cache-Control","public,max-age=0")

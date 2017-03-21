@@ -57,7 +57,7 @@ exports.NewUpdate=function(req,res){
 				console.log(err)
 				res.end("数据库出错")
 			}
-			if(movie == null){
+			if(movie == null){//新增电影
 				_movie=new Movie({
 					doctor: movieObj.doctor,
 					title: movieObj.title,
@@ -74,7 +74,7 @@ exports.NewUpdate=function(req,res){
 					}
 					res.redirect('/watch?id='+movie._id)
 				})
-			}else{
+			}else{//更新电影
 				_movie=_.extend(movie,movieObj)
 				_movie.save(function(err,movie){
 					if(err){
