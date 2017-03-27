@@ -23,10 +23,13 @@ app.set("view engine","jade")
 app.use("/static",express.static("public",{
 	"maxAge":"0",
 	setHeaders:function(res,path){
-		if(express.static.mime.lookup(path)==="text/html")
+		if(express.static.mime.lookup(path)==="text/html"){
 			res.setHeader("Cache-Control","public,max-age=0")
-		if(express.static.mime.lookup(path)==="video/mp4")
+		}
+		if(express.static.mime.lookup(path)==="video/mp4"){
+			res.setHeader("Cache-Control","public,max-age=1000")
 			res.setHeader("Content-Type","video/webm")
+		}
 	}
 }))
 require("./config/Middleware")(app)
@@ -58,9 +61,6 @@ app.use("/admin",function(req,res,next){
 	}
 })
 require("./config/routes")(app)
-
-
-
 app.use("*",function(req,res){
 	res.end("404 Not Found")
 })

@@ -14,8 +14,16 @@ div#wraphtml5player{
 div#html5playerbox{
 	width: 100%;
 	height:100%;
-	
+	background-color: #000;
 	position: relative;
+}
+#html5playerbox video{
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	-moz-transform: translateY(-50%);
+	display: block;
 }
 div#html5playerbox:hover div#html5playercontrolbar{
 	display: block;

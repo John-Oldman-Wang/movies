@@ -16,7 +16,7 @@
 <body>
 	<div id="wraphtml5player">
 		<div id='html5playerbox'>
-			<video id='html5player' width="100%" poster="./picture/Adele-Rolling-in-the-Deep.PNG" src="./video/Adele-Rolling-in-the-Deep.mp4" >type="video/webm"
+			<video id='html5player' width="100%" poster="./picture/Adele-Rolling-in-the-Deep.PNG" src="" >./video/Adele-Rolling-in-the-Deep.mp4
 			</video>
 			<div id='html5playercontrolbar'>
 				<button id='playpausebtn'>
@@ -61,6 +61,29 @@
 				</button>
 			</div>
 		</div>
+		<button id="test">点击获取</button>
 	</div>
+	<script type="text/javascript">
+		var xhr=new XMLHttpRequest()
+		function load(url){
+			xhr.open("GET",url)
+			xhr.responseType="arraybuffer"
+			xhr.onload=function(){
+				console.log(xhr.response)
+				window.arraybuffer=xhr.response
+				window.blob=new Blob([xhr.response])
+				if(window.URL&&window.URL.createObjectURL){
+					console.log("url")
+					var url=window.URL.createObjectURL(blob)
+					console.log(url)
+					document.getElementById("html5player").src=url
+				}
+			}
+			xhr.send()
+		}
+		document.getElementById("test").onclick=function(){
+			load("/static/video/Adele-Rolling-in-the-Deep.mp4")
+		}
+	</script>
 </body>
 </html>

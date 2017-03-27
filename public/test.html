@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test</title>
+</head>
+<style type="text/css">
+	#html5playerbox{
+		position: relative;
+		width:800px;
+		height:600px;
+		margin:0 auto;
+		background-color: #000;
+		border:1px solid red;
+		vertical-align: middle;
+		font-size: 14px;
+	}
+	video{
+		position: absolute;
+		top:50%;
+		-webkit-transform: translateY(-50%);
+		/*-moz-transform:translateX(-50%);
+		/*transform: translateX(-50%);*/
+		display: block;
+		width:100%;
+		vertical-align: middle;
+	}
+</style>
+<body>
+	<div id="html5playerbox">
+		<video id='html5player' width="100%" poster="./picture/Adele-Rolling-in-the-Deep.PNG" src="./video/Adele-Rolling-in-the-Deep.mp4" controls=""></video>
+	</div>
+</body>
+</html>
