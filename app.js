@@ -33,8 +33,12 @@ app.use("/static",express.static("public",{
 	}
 }))
 require("./config/Middleware")(app)
+var cookieParser=require("cookie-parser")
+app.use(cookieParser("movies"))
 app.use(session({
 	secret:"movies",
+	resave:true,
+	saveUninitialized:true,
 	store: new mongoStore({
 		url:dburl,
 		collection: "sessions"

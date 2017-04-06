@@ -63,14 +63,21 @@ exports.verification=function(req,res){
 			}
 			if(isMatch){
 				//密码正确登录成功
-				delete user.password
+				user.password=null
 				req.session.user = user //写入会话
-				console.log('password is match')
+				try{
+					if("password" in req.session.user){
+						delete req.session.user.password
+					}else{
+						console.log(req.session.user.password)
+					}
+				}catch(e){
+					console.log(e)
+				}
 				res.redirect('/admin/userlist')
 			}
 			else{
 				//密码错误
-				console.log('password is not match')
 				res.redirect('/')
 			}
 		})
